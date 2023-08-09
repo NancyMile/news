@@ -30,18 +30,18 @@
 		<div class="row">
 			<div class="col-md-6 mb-4">
 				<div class="card">
-					<div class="card-body text-center bg-primary text-white p-5">
+					<div class="card-body text-center bg-primary p-5">
 						<h3>Trends</h3>
-						<p>	Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam deleniti sed recusandae vitae architecto molestiae, eos corrupti</p>
+							<canvas id="barChart" style="max-width: 500px;"></canvas>
 					</div>
 				</div>
 			</div>
 			
 			<div class="col-md-6 mb-4">
 				<div class="card">
-					<div class="card-body text-center bg-primary text-white p-5">
+					<div class="card-body text-center bg-primary p-5">
 						<h3>key Words</h3>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam deleniti sed recusandae vitae architecto molestiae, eos corrupti</p>
+						<canvas id="pieChart" style="max-width: 500px;"></canvas>
 					</div>
 				</div>
 			</div>
