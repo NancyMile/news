@@ -1,10 +1,12 @@
 <?php
 	require 'includes/app.php';
 	addTemplate('header');
+
+	if(isset($_POST['data'])){
+		$articles = $_POST['data'];
+	}
 ?>
-<script>
-	alert(articles)
-</script>
+ <button onClick="sendData()">Send Data</button>
 	<div class="border-top py-4">
 		<div class="navbar navbar-expand-lg container navbar-light ">
 			<a class="navbar-brand nombre-sitio d-lg-none fs-2 fw-bold text-uppercase" href="index.html">
@@ -23,6 +25,7 @@
 	</div>
 	<main class="container-xl py-5">
 		<h2 class="text-center my-5">Charts</h2>
+
 		<div class="row">
 			<div class="col-md-6 mb-4">
 				<div class="card">
@@ -47,20 +50,18 @@
 	<section class="container-xl">
 		<h2 class="text-center py-5">Todays News</h2>
 		<div class="row mt-5">
-			<div class="col-md-4">
-				<p class="text-dark fs-2 text-center d-block py-3">News 1</p>
-			</div>
-			<div class="col-md-4">
-				<p class="text-dark fs-2 text-center d-block py-3">O</p>
-			</div>
-			<div class="col-md-4">
-				<p class="text-dark fs-2 text-center d-block py-3">O</p>
-			</div>
+			<?php
+				if(isset($articles)):
+					for($i=0; $i<= 30; $i++ ): ?>
+						<div class="col-md-4">
+							<h4><?php echo $articles[$i]['headLine']; ?></h4>
+							<p class="text-dark fs-2 text-center d-block py-3"><?php echo $articles[$i]['articleSummary']; ?></p>
+						</div>
+			<?php   endfor;
+				endif; ?>
 		</div>
 	</section>
 
 	<?php
 	addTemplate('footer');
 	?>
-
-	 
