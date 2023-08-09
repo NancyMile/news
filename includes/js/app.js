@@ -23,7 +23,7 @@ function sendData() {
       url: 'http://localhost:8080/index.php',
       data:{"data":articles},
       success: function (articles) {
-        //window.location = 'http://localhost:8080/index.php';
+        $("body").html(articles);
       }
     });
   });

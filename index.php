@@ -52,9 +52,12 @@
 		<div class="row mt-5">
 			<?php
 				if(isset($articles)):
-					for($i=0; $i<= 30; $i++ ): ?>
+					for($i=1; $i<= 30; $i++ ): ?>
 						<div class="col-md-4">
-							<h4><?php echo $articles[$i]['headLine']; ?></h4>
+							<div class="overflow-hidden">
+								<img class="img-fluid" src="<?php echo $articles[$i]['image']; ?>" alt="news">
+							</div>
+							<h3  class="mb-4"><?php echo $articles[$i]['headLine']; ?></h4>
 							<p class="text-dark fs-2 text-center d-block py-3"><?php echo $articles[$i]['articleSummary']; ?></p>
 						</div>
 			<?php   endfor;
