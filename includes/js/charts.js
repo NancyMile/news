@@ -1,11 +1,14 @@
 const objWordCounts = JSON.parse(JSON.stringify(wordCounts));
 
-let chartLabels = [];
-let chartDetails = [];
+let pieChartLabels = [];
+let pieChartDetails = [];
+let pieChartBgColor = [];
 
 for (const x in objWordCounts) {
-  chartLabels.push(objWordCounts[x].word);
-  chartDetails.push(objWordCounts[x].occurences);
+  pieChartLabels.push(objWordCounts[x].word);
+  pieChartDetails.push(objWordCounts[x].occurences);
+  //generate ramdom colors
+  pieChartBgColor.push("#"+(Math.floor(Math.random()*16777215).toString(16)));
 }
 
 //bars
@@ -13,10 +16,10 @@ const ctx = document.getElementById("barChart").getContext('2d');
   let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: chartLabels,
+      labels: pieChartLabels,
       datasets: [{
         label: '',
-        data: chartDetails,
+        data: pieChartDetails,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -64,20 +67,12 @@ var pieChart3 = new Chart(ctx3, {
     },
   },
   data: {
-    labels: chartLabels,
+    labels: pieChartLabels,
     datasets: [{
-      data: chartDetails,
+      data: pieChartDetails,
       borderWidth: 7,
-      backgroundColor: [
-        '#46d8d5',
-        "#182390",
-        "#f5e132",
-      ],
-      hoverBackgroundColor: [
-        '#46d8d5',
-        "#182390",
-        "#f5e132",
-      ]
+      backgroundColor: pieChartBgColor,
+      hoverBackgroundColor: pieChartBgColor
     }]
   }
 });
