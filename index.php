@@ -2,8 +2,9 @@
 	require 'includes/app.php';
 	addTemplate('header');
 
-	if(isset($_POST['data'])){
+	if(isset($_POST['data']) && isset($_POST['wordCounts']) ){
 		$articles = $_POST['data'];
+		$keywords = $_POST['wordCounts'];
 	}
 ?>
  <button onClick="sendData()">Send Data</button>
