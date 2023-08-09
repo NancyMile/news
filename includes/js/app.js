@@ -1,8 +1,8 @@
+let wordCounts = {};
 function sendData() {
   $.get("http://localhost:8080/news.php", function (html) {
     // retrieve list of news by article
     const articleHTMLElements = $(html).find("article");
-    let wordCounts = {};
     let string = '';
     const articles = [];
     // news with the scraped data

@@ -1,12 +1,22 @@
+const objWordCounts = JSON.parse(JSON.stringify(wordCounts));
+
+let chartLabels = [];
+let chartDetails = [];
+
+for (const x in objWordCounts) {
+  chartLabels.push(objWordCounts[x].word);
+  chartDetails.push(objWordCounts[x].occurences);
+}
+
 //bars
 const ctx = document.getElementById("barChart").getContext('2d');
   let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      labels: chartLabels,
       datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: '',
+        data: chartDetails,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -54,13 +64,9 @@ var pieChart3 = new Chart(ctx3, {
     },
   },
   data: {
-    labels: [
-      "First",
-      "Second",
-      "Third"
-    ],
+    labels: chartLabels,
     datasets: [{
-      data: [300, 50, 100],
+      data: chartDetails,
       borderWidth: 7,
       backgroundColor: [
         '#46d8d5',
