@@ -53,7 +53,7 @@
 		<div class="row mt-5">
 			<?php
 				if(isset($articles)):
-					for($i=1; $i<= 30; $i++ ): ?>
+					for($i=1; $i<count($articles); $i++ ): ?>
 						<div class="col-md-4">
 							<div class="overflow-hidden">
 								<img class="img-fluid" src="<?php echo $articles[$i]['image']; ?>" alt="news">
