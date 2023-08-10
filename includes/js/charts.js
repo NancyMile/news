@@ -1,5 +1,5 @@
+//key words
 const objWordCounts = JSON.parse(JSON.stringify(wordCounts));
-
 let pieChartLabels = [];
 let pieChartDetails = [];
 let pieChartBgColor = [];
@@ -11,31 +11,41 @@ for (const x in objWordCounts) {
   pieChartBgColor.push("#"+(Math.floor(Math.random()*16777215).toString(16)));
 }
 
+//trends
+const objTrends = JSON.parse(JSON.stringify(trends));
+let barChartLabels = [];
+let barChartDetails = [];
+let barChartBgColor = [];
+let barChartBorderColor = [];
+
+const randomRgbColor = (opacy) => {
+  let r = Math.floor(Math.random() * 256); // Random between 0-255
+  let g = Math.floor(Math.random() * 256); // Random between 0-255
+  let b = Math.floor(Math.random() * 256); // Random between 0-255
+  let o = opacy;
+  return 'rgb(' + r + ',' + g + ',' + b + ',' + o +')';
+};
+
+for (const x in objTrends) {
+  barChartLabels.push(objTrends[x].trendName);
+ // barChartDetails.push(objTrends[x].occurences);
+ barChartDetails.push(Math.floor(Math.random(1-99)));
+  //generate ramdom colors
+  barChartBgColor.push(randomRgbColor(0.2));
+  barChartBorderColor.push(randomRgbColor(1));
+}
+
 //bars
 const ctx = document.getElementById("barChart").getContext('2d');
   let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: pieChartLabels,
+      labels: barChartLabels,
       datasets: [{
         label: '',
         data: pieChartDetails,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
+        backgroundColor: barChartBgColor,
+        borderColor: barChartBorderColor,
         borderWidth: 1
       }]
     },
