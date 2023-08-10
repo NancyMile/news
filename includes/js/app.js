@@ -8,16 +8,20 @@ function sendData() {
     // news with the scraped data
     articleHTMLElements.each((i, articleHTML) => {
       //string to get the most repeated words
-      string = string+$(articleHTML).find("h4").text()+''+$(articleHTML).find("p").text();
+      let paragrath = $(articleHTML).find("p").text();
+      string = string+$(articleHTML).find("h4").text()+''+paragrath;
 
-      // scrape data from the article HTML element
-      const article = {
-        headLine: $(articleHTML).find("h4").text(),
-        articleSummary: $(articleHTML).find("p").text(),
-        url: $(articleHTML).find("a").attr("href"),
-        image: $(articleHTML).find("img").attr("src"),
-      };
-      articles.push(article);
+      //check that the news has paragraph
+      if (paragrath) {
+        // scrape data from the article HTML element
+        const article = {
+          headLine: $(articleHTML).find("h4").text(),
+          articleSummary: $(articleHTML).find("p").text(),
+          url: $(articleHTML).find("a").attr("href"),
+          image: $(articleHTML).find("img").attr("src"),
+        };
+        articles.push(article);
+      }
     });
     // getting keywords
     wordCounts = nthMostCommon(string, 15);
