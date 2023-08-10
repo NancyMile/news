@@ -1,6 +1,22 @@
 let wordCounts = {};
+const trends = [];
+
 function sendData() {
   $.get("http://localhost:8080/news.php", function (html) {
+    //trends
+    const trendHTMLElements = $(html).find('a');
+    trendHTMLElements.each((i, trendHTML) => {
+      // scrape data from the link HTML element
+      trendTopics =$(trendHTML).data('tgevContainer')
+      if (trendTopics === 'trending-topics') {
+        const trend = {
+          trendName: $(trendHTML).text()
+        };
+        trends.push(trend);
+        }
+    });
+    //alert(JSON.stringify(trends));
+
     // retrieve list of news by article
     const articleHTMLElements = $(html).find("article");
     let string = '';
