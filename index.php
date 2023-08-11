@@ -30,13 +30,13 @@
 		</div>
 	</div>
 	<main class="container-xl py-5" id="charts">
-		<h2 class="text-center my-5">Charts</h2>
+		<h2 class="text-center my-5">Key Words</h2>
 
 		<div class="row">
 			<div class="col-md-6 mb-4">
 				<div class="card">
 					<div class="card-body text-center bg-primary p-5">
-						<h3>Trends</h3>
+						<h3>Bar Chart</h3>
 							<canvas id="barChart" style="max-width: 500px;"></canvas>
 					</div>
 				</div>
@@ -45,7 +45,29 @@
 			<div class="col-md-6 mb-4">
 				<div class="card">
 					<div class="card-body text-center bg-primary p-5">
-						<h3>key Words</h3>
+						<h3>Pie Chart</h3>
+						<canvas id="pieChart" style="max-width: 500px;"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="text-center my-5">Trends</h2>
+
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="card">
+					<div class="card-body text-center bg-primary p-5">
+						<h3>Bar Chart</h3>
+							<canvas id="barChart" style="max-width: 500px;"></canvas>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 mb-4">
+				<div class="card">
+					<div class="card-body text-center bg-primary p-5">
+						<h3>Pie Chart</h3>
 						<canvas id="pieChart" style="max-width: 500px;"></canvas>
 					</div>
 				</div>

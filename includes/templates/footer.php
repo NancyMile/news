@@ -9,7 +9,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="/includes/js/app.js"></script>
     <?php if(isset($_POST['data'])): ?>
-           <script> generatePie(keywordsPages)</script>
+        <script>
+            generatePie(keywordsPages)
+            generateBarChart(keywordsPages)
+        </script>
         <!-- <script src="/includes/js/charts.js"></script> -->
     <?php  else: ?>
         <script src="/includes/js/ignoreWordsList.js"></script>

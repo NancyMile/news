@@ -117,11 +117,11 @@ async function sendData() {
         //calculating all the key words from all pages
         keywordsPages = nthMostCommon(totalString, 15);
 
-        console.log("LAST WORD COUNTS pages-------");
-        console.log('keywordsPages')
+        // console.log("LAST WORD COUNTS pages-------");
+        // console.log(keywordsPages)
 
-        // console.log("LAST WORD COUNTS -------");
-        // console.log(wordCounts)
+        console.log("LAST WORD COUNTS sumary each page-----");
+        console.log(wordCounts)
 
         //alert("after for"+JSON.stringify(articles))
         //return { articles, wordCounts };
@@ -210,6 +210,56 @@ function generatePie(){
         backgroundColor: pieChartBgColor,
         hoverBackgroundColor: pieChartBgColor
       }]
+    }
+  });
+}
+
+function generateBarChart() {
+  const objTrends = JSON.parse(JSON.stringify(keywordsPages));
+  let barChartLabels = [];
+  let barChartDetails = [];
+  let barChartBgColor = [];
+  let barChartBorderColor = [];
+
+  const randomRgbColor = (opacy) => {
+    let r = Math.floor(Math.random() * 256); // Random between 0-255
+    let g = Math.floor(Math.random() * 256); // Random between 0-255
+    let b = Math.floor(Math.random() * 256); // Random between 0-255
+    let o = opacy;
+    return 'rgb(' + r + ',' + g + ',' + b + ',' + o +')';
+  };
+
+  for (const x in objTrends) {
+    barChartLabels.push(objTrends[x].word);
+    barChartDetails.push(objTrends[x].occurences);
+    //barChartDetails.push(Math.floor(Math.random(1-99)));
+    //generate ramdom colors
+    barChartBgColor.push(randomRgbColor(0.2));
+    barChartBorderColor.push(randomRgbColor(1));
+  }
+
+  //bars
+  const ctx = document.getElementById("barChart").getContext('2d');
+  let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: barChartLabels,
+      datasets: [{
+        label: '',
+        data: barChartDetails,
+        backgroundColor: barChartBgColor,
+        borderColor: barChartBorderColor,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
     }
   });
 }
