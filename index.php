@@ -63,8 +63,10 @@
 							<!-- <div class="overflow-hidden">
 								<img class="img-fluid" src="<?php echo $articles[$i]['image']; ?>" alt="news">
 							</div> -->
-							<h3  class="mb-4"><?php echo $articles[$i]['headLine']; ?></h4>
-							<p class="text-dark fs-2 text-center d-block py-3"><?php echo $articles[$i]['articleSummary']; ?></p>
+							<?php if(isset($articles[$i]['headLine']) && isset($articles[$i]['articleSummary'])): ?>
+								<h3  class="mb-4"><?php echo $articles[$i]['headLine']; ?></h4>
+								<p class="text-dark fs-2 text-center d-block py-3"><?php echo $articles[$i]['articleSummary']; ?></p>
+							<?php endif; ?>
 						</div>
 			<?php   endfor;
 				endif; ?>
