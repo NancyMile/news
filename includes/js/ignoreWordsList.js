@@ -1,5 +1,6 @@
 //List of Stop Words for SEO
 const ignoreWords = [
+    "-",
     "a",
     "able",
     "about",
