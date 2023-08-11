@@ -1,61 +1,144 @@
-let wordCounts = {};
-const trends = [];
+async function sendData() {
+  try {
+    const urlList = [];
+    const trends = [];
 
-function sendData() {
-  $.get("http://localhost:8080/news.php", function (html) {
-    //trends
-    const trendHTMLElements = $(html).find('a');
-    trendHTMLElements.each((i, trendHTML) => {
-      // scrape data from the link HTML element
-      trendTopics =$(trendHTML).data('tgevContainer')
-      if (trendTopics === 'trending-topics') {
-        const trend = {
-          trendName: $(trendHTML).text()
-        };
-        trends.push(trend);
-        }
-    });
-    //alert(JSON.stringify(trends));
+    const response = await fetch(
+      "http://localhost:8080/news.php"
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    const data = await response.text()
+      .then(function (data) {
+        // This is the JSON from our response
+        html = data
+        /////
+        //alert('devolvio html')
+        //const urlList = [];
+        //const trends = [];
+        //trends
+        const trendHTMLElements = $(html).find('a');
+        //const trends = [];
+        trendHTMLElements.each((i, trendHTML) => {
+          // scrape data from the link HTML element
+          trendTopics = $(trendHTML).data('tgevContainer')
+          //list of links
+          const links = {
+              linkName: $(trendHTML).text(),
+              linkUrl: $(trendHTML).attr("href")
+          }
+          //marked as trending
+          if (trendTopics === 'trending-topics') {
+            // scrape data from the article HTML element
+            const trend = {
+              trendName: $(trendHTML).text(),
+              trendUrl: $(trendHTML).attr("href")
+            };
+            trends.push(trend);
+          }
+          urlList.push(links)
+        });
+        //alert('tosooooo links')
+        //alert(urlList)
 
-    // retrieve list of news by article
-    const articleHTMLElements = $(html).find("article");
-    let string = '';
-    const articles = [];
-    // news with the scraped data
-    articleHTMLElements.each((i, articleHTML) => {
-      //string to get the most repeated words
-      let paragrath = $(articleHTML).find("p").text();
-      string = string+$(articleHTML).find("h4").text()+''+paragrath;
+        this.trends = trends
 
-      //check that the news has paragraph
-      if (paragrath) {
-        // scrape data from the article HTML element
-        const article = {
-          headLine: $(articleHTML).find("h4").text(),
-          articleSummary: $(articleHTML).find("p").text(),
-          url: $(articleHTML).find("a").attr("href"),
-          image: $(articleHTML).find("img").attr("src"),
-        };
-        articles.push(article);
-      }
-    });
-    // getting keywords
-    wordCounts = nthMostCommon(string, 15);
+        console.log(data);
+        console.log(trends);
+      })
+      //get data from pages
+      .then(async function () {
+        //alert("aquiiiiii---- "+JSON.stringify(this.trends))
+        ///todos los links
+        articles = [];
+        wordCounts = [];
+        keywordsPages = [];
+        totalString = '';
+        let  objUrlList= JSON.parse(JSON.stringify(this.trends)); //this was urlList  //trends
+        //alert("total links "+objUrlList.length) //722 links
+        for (const x in objUrlList) {
+          //let urlLink = objUrlList[x].trendUrl;  /trendUrl /linkUrl
+          let urlLink = objUrlList[x].trendUrl;
+          if (!urlLink.startsWith("http")) {
+            //alert("url"+urlLink)
+            //send page url
+            const pages = await fetch('pages.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+              },
+              body: "url=https://news.com.au/"+urlLink
+            })
+              .then(response => response.text())
+              .then(function (data) {
+                // This is the JSON from our response
+                html_pages = data
+                //////en la pg
+                let string = '';
+                // retrieve list of news by article
+                let articleHTMLElements = $(html_pages).find("article");
+                // news with the scraped data
+                articleHTMLElements.each((i, articleHTML) => {
+                  //string to get the most repeated words
+                  let paragraph = $(articleHTML).find("p").text();
+                  string = string + '' + $(articleHTML).find("h4").text() + '' + paragraph;
+                    if (paragraph !=='') {
+                      // scrape data from the article HTML element
+                      const article = {
+                        headLine: $(articleHTML).find("h4").text(),
+                        articleSummary: $(articleHTML).find("p").text(),
+                        url: $(articleHTML).find("a").attr("href"),
+                        image: $(articleHTML).find("img").attr("src"),
+                      };
+                      articles.push(article);
+                    }
+                });
+                // getting keywords
+                if (string !== '') {
+                  totalString = totalString + '' + string;
+                  wordCountsPage = nthMostCommon(string, 15);
+                  wordCounts.push(wordCountsPage);
+                }
+                /////
+                console.log(data);
+              })
+              .then(function (html) {
+                // Convert the HTML string into a document object
+                //var document = parser.parseFromString(html, 'text/html');
+                //console.log(html);
+              })
+              .catch(function (error) {
+                // There was an error
+                console.warn('Something went wrong.', error);
+              });
+          }
+        }//for
+        //calculating all the key words from all pages
+        keywordsPages = nthMostCommon(totalString, 15);
 
-    //articles.push(wordCounts);
+        console.log("LAST WORD COUNTS pages-------");
+        console.log('keywordsPages')
 
-    //console.log(JSON.stringify(articles));
-    //alert("wordCounts: "+JSON.stringify(wordCounts));
+        // console.log("LAST WORD COUNTS -------");
+        // console.log(wordCounts)
 
-    return  $.post({
-      url: 'http://localhost:8080/index.php',
-      data: { "data": articles, "wordCounts": wordCounts },
-      success: function (articles) {
-        $("body").html(articles);
-      }
-    });
-  });
+        //alert("after for"+JSON.stringify(articles))
+        //return { articles, wordCounts };
+
+        return  $.post({
+          url: 'http://localhost:8080/index.php',
+          data: { "data": articles,"keywordsPages": keywordsPages },
+          success: function (articles) {
+            $("body").html(articles);
+          }
+        });
+      })
+    } catch (error) {
+      console.error(`Could not get data: ${error}`);
+    }
 }
+
 
 /* source https://stackoverflow.com/questions/53874692/how-do-i-solve-most-frequent-word-in-sentence-according-to-these-hints-in-python*/
 
@@ -87,4 +170,46 @@ function nthMostCommon(str, amount) {
     }, []);
 
     return result;
+}
+
+function generatePie(){
+  //key words
+  //alert(keywordsPages)
+  const objWordCounts = JSON.parse(JSON.stringify(keywordsPages));
+  let pieChartLabels = [];
+  let pieChartDetails = [];
+  let pieChartBgColor = [];
+
+  for (const x in objWordCounts) {
+    pieChartLabels.push(objWordCounts[x].word);
+    pieChartDetails.push(objWordCounts[x].occurences);
+    //generate ramdom colors
+    pieChartBgColor.push("#"+(Math.floor(Math.random()*16777215).toString(16)));
+  }
+
+  //pie
+  var ctx3 = document.getElementById("pieChart");
+    var pieChart3 = new Chart(ctx3, {
+    type: 'pie',
+    options: {
+      legend: {
+        position: 'left',
+        labels: {
+          boxWidth: 10,
+          fontStyle: 'italic',
+          fontColor: '#aaa',
+          usePointStyle: true,
+        }
+      },
+    },
+    data: {
+      labels: pieChartLabels,
+      datasets: [{
+        data: pieChartDetails,
+        borderWidth: 7,
+        backgroundColor: pieChartBgColor,
+        hoverBackgroundColor: pieChartBgColor
+      }]
+    }
+  });
 }
