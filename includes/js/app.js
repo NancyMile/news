@@ -53,6 +53,7 @@ async function sendData() {
         ///todos los links
         articles = [];
         wordCounts = [];
+        highPerpage = [];
         keywordsPages = [];
         totalString = '';
         let  objUrlList= JSON.parse(JSON.stringify(this.trends)); //this was urlList  //trends
@@ -98,6 +99,7 @@ async function sendData() {
                 if (string !== '') {
                   totalString = totalString + '' + string;
                   wordCountsPage = nthMostCommon(string, 15);
+                  highPerpage.push(wordCountsPage[0]);
                   wordCounts.push(wordCountsPage);
                 }
                 /////
@@ -120,15 +122,15 @@ async function sendData() {
         // console.log("LAST WORD COUNTS pages-------");
         // console.log(keywordsPages)
 
-        console.log("LAST WORD COUNTS sumary each page-----");
-        console.log(wordCounts)
+        // console.log("LAST WORD COUNTS sumary each page-----");
+        // console.log(wordCounts)
 
         //alert("after for"+JSON.stringify(articles))
         //return { articles, wordCounts };
 
         return  $.post({
           url: 'http://localhost:8080/index.php',
-          data: { "data": articles,"keywordsPages": keywordsPages },
+          data: { "data": articles,"keywordsPages": keywordsPages, "trends":trends, "highPerpage": highPerpage },
           success: function (articles) {
             $("body").html(articles);
           }
@@ -240,6 +242,57 @@ function generateBarChart() {
 
   //bars
   const ctx = document.getElementById("barChart").getContext('2d');
+  let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: barChartLabels,
+      datasets: [{
+        label: '',
+        data: barChartDetails,
+        backgroundColor: barChartBgColor,
+        borderColor: barChartBorderColor,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
+
+
+function generateTrendsChart() {
+  const objTrends = JSON.parse(JSON.stringify(highPerpage));
+  let barChartLabels = [];
+  let barChartDetails = [];
+  let barChartBgColor = [];
+  let barChartBorderColor = [];
+
+  const randomRgbColor = (opacy) => {
+    let r = Math.floor(Math.random() * 256); // Random between 0-255
+    let g = Math.floor(Math.random() * 256); // Random between 0-255
+    let b = Math.floor(Math.random() * 256); // Random between 0-255
+    let o = opacy;
+    return 'rgb(' + r + ',' + g + ',' + b + ',' + o +')';
+  };
+
+  for (const x in objTrends) {
+    barChartLabels.push(objTrends[x].word);
+    barChartDetails.push(objTrends[x].occurences);
+    //barChartDetails.push(Math.floor(Math.random(1-99)));
+    //generate ramdom colors
+    barChartBgColor.push(randomRgbColor(0.2));
+    barChartBorderColor.push(randomRgbColor(1));
+  }
+
+  //bars
+  const ctx = document.getElementById("trendsChart").getContext('2d');
   let myChart = new Chart(ctx, {
     type: 'bar',
     data: {

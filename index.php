@@ -5,8 +5,10 @@
 	if(isset($_POST['data'])){
 		$articles = $_POST['data'];
 	}
-	if(isset($_POST['keywordsPages'])){
+	if((isset($_POST['keywordsPages'])) && isset($_POST['trends']) && isset($_POST['highPerpage']) ){
 		$keywords = $_POST['keywordsPages'];
+		$trends = $_POST['trends'];
+		$highPerpage = $_POST['highPerpage'];
 ?>
 		<script>let keywordsPages =<?php echo $keywords; ?> </script>
 <?php
@@ -54,21 +56,12 @@
 
 		<h2 class="text-center my-5">Trends</h2>
 
-		<div class="row">
+		<div class="row align-items-center justify-content-center">
 			<div class="col-md-6 mb-4">
 				<div class="card">
 					<div class="card-body text-center bg-primary p-5">
-						<h3>Bar Chart</h3>
-							<canvas id="barChart" style="max-width: 500px;"></canvas>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-6 mb-4">
-				<div class="card">
-					<div class="card-body text-center bg-primary p-5">
-						<h3>Pie Chart</h3>
-						<canvas id="pieChart" style="max-width: 500px;"></canvas>
+						<h3>Bar Line</h3>
+							<canvas id="trendsChart" style="max-width: 500px;"></canvas>
 					</div>
 				</div>
 			</div>

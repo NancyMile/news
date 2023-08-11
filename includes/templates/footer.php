@@ -12,6 +12,7 @@
         <script>
             generatePie(keywordsPages)
             generateBarChart(keywordsPages)
+            generateTrendsChart(trends,highPerpage)
         </script>
         <!-- <script src="/includes/js/charts.js"></script> -->
     <?php  else: ?>
