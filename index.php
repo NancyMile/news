@@ -24,13 +24,21 @@
 			</button>
 			<div id="navegacion" class="collapse navbar-collapse">
 				<nav class="navbar-nav container d-flex flex-md-row justify-content-md-between text-center">
-					<a class="btn btn-success px-5 py-3 fs-3 text-uppercase fw-bold rounded-0 d-block d-md-inline-block" onClick="sendData()">Get News</a>
+					<a class="btn btn-success px-5 py-3 fs-3 text-uppercase fw-bold rounded-0 d-block d-md-inline-block" id="get-news" onClick="sendData()">Get News</a>
 					<a class="text-dark text-decoration-none" href="#charts">Trends and Key words</a>
 					<a class="text-dark text-decoration-none" href="#news">Todays News</a>
 				</nav>
 			</div>
 		</div>
 	</div>
+
+	<div class="row align-items-center justify-content-center">
+		<button id="spinner-div" class="btn btn-primary" disabled>
+			<span class="spinner-grow spinner-grow-sm"></span>
+			Loading..
+		</button>
+	</div>
+
 	<main class="container-xl py-5" id="charts">
 		<h2 class="text-center my-5">Key Words</h2>
 

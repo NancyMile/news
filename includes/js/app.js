@@ -1,3 +1,10 @@
+$(document).ready(function () {
+  $('#spinner-div').hide();
+  $("#get-news").click(function () {
+    $('#spinner-div').show();
+  })
+})
+
 async function sendData() {
   try {
     const urlList = [];
@@ -133,6 +140,9 @@ async function sendData() {
           data: { "data": articles,"keywordsPages": keywordsPages, "trends":trends, "highPerpage": highPerpage },
           success: function (articles) {
             $("body").html(articles);
+          },
+          complete: function () {
+            $("#spinner-div").hide();
           }
         });
       })
