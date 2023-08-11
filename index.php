@@ -2,9 +2,14 @@
 	require 'includes/app.php';
 	addTemplate('header');
 
-	if(isset($_POST['data']) && isset($_POST['wordCounts']) ){
+	if(isset($_POST['data'])){
 		$articles = $_POST['data'];
-		$keywords = $_POST['wordCounts'];
+	}
+	if(isset($_POST['keywordsPages'])){
+		$keywords = $_POST['keywordsPages'];
+?>
+		<script>let keywordsPages =<?php echo $keywords; ?> </script>
+<?php
 	}
 ?>
 	<div class="border-top py-4">
