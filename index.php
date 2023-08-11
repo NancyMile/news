@@ -7,7 +7,6 @@
 		$keywords = $_POST['wordCounts'];
 	}
 ?>
- <button onClick="sendData()">Send Data</button>
 	<div class="border-top py-4">
 		<div class="navbar navbar-expand-lg container navbar-light ">
 			<a class="navbar-brand nombre-sitio d-lg-none fs-2 fw-bold text-uppercase" href="index.html">
@@ -18,13 +17,14 @@
 			</button>
 			<div id="navegacion" class="collapse navbar-collapse">
 				<nav class="navbar-nav container d-flex flex-md-row justify-content-md-between text-center">
-					<a class="text-dark text-decoration-none" href="#">Trends and Key words</a>
-					<a class="text-dark text-decoration-none" href="#">Todays News</a>
+					<a class="btn btn-success px-5 py-3 fs-3 text-uppercase fw-bold rounded-0 d-block d-md-inline-block" onClick="sendData()">Get News</a>
+					<a class="text-dark text-decoration-none" href="#charts">Trends and Key words</a>
+					<a class="text-dark text-decoration-none" href="#news">Todays News</a>
 				</nav>
 			</div>
 		</div>
 	</div>
-	<main class="container-xl py-5">
+	<main class="container-xl py-5" id="charts">
 		<h2 class="text-center my-5">Charts</h2>
 
 		<div class="row">
@@ -48,7 +48,7 @@
 		</div>
 	</main>
 
-	<section class="container-xl">
+	<section id="news" class="container-xl">
 		<h2 class="text-center py-5">Todays News</h2>
 		<div class="row mt-5">
 			<?php
