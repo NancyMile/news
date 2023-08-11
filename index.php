@@ -55,9 +55,9 @@
 				if(isset($articles)):
 					for($i=1; $i<count($articles); $i++ ): ?>
 						<div class="col-md-4">
-							<div class="overflow-hidden">
+							<!-- <div class="overflow-hidden">
 								<img class="img-fluid" src="<?php echo $articles[$i]['image']; ?>" alt="news">
-							</div>
+							</div> -->
 							<h3  class="mb-4"><?php echo $articles[$i]['headLine']; ?></h4>
 							<p class="text-dark fs-2 text-center d-block py-3"><?php echo $articles[$i]['articleSummary']; ?></p>
 						</div>
