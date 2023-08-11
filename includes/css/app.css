@@ -8,7 +8,7 @@ html {
 }
 body {
     font-family: 'Raleway', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     line-height: 2;
 }
 
@@ -34,7 +34,7 @@ h2 {
     }
 }
 h3 {
-    font-size: 2.4rem;
+    font-size: 2.1rem;
 }
 @media (min-width: 768px) {
     h3 {
