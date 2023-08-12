@@ -77,7 +77,7 @@
 	</main>
 
 	<section id="news" class="container-xl">
-		<h2 class="text-center py-5">Todays News</h2>
+		<h2 class="text-center py-5">Todays News <?php if(isset($articles)) echo count($articles); ?></h2>
 		<div class="row mt-5">
 			<?php
 				if(isset($articles)):
