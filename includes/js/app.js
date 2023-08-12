@@ -50,6 +50,7 @@ async function sendData() {
         //alert(urlList)
 
         this.trends = trends
+        this.urlList = urlList
 
         console.log(data);
         console.log(trends);
@@ -63,11 +64,11 @@ async function sendData() {
         highPerpage = [];
         keywordsPages = [];
         totalString = '';
-        let  objUrlList= JSON.parse(JSON.stringify(this.trends)); //this was urlList  //trends
+        let  objUrlList= JSON.parse(JSON.stringify(this.urlList)); //this was urlList  //trends
         //alert("total links "+objUrlList.length) //722 links
         for (const x in objUrlList) {
-          //let urlLink = objUrlList[x].trendUrl;  /trendUrl /linkUrl
-          let urlLink = objUrlList[x].trendUrl;
+          //let urlLink = objUrlList[x].linkUrl;  /trendUrl /linkUrl
+          let urlLink = objUrlList[x].linkUrl;
           if (!urlLink.startsWith("http")) {
             //alert("url"+urlLink)
             //send page url
@@ -106,6 +107,7 @@ async function sendData() {
                 if (string !== '') {
                   totalString = totalString + '' + string;
                   wordCountsPage = nthMostCommon(string, 15);
+                  wordCountsPage.sort((a, b) => b.occurences - a.occurences); //order desc
                   highPerpage.push(wordCountsPage[0]);
                   wordCounts.push(wordCountsPage);
                 }
@@ -114,7 +116,7 @@ async function sendData() {
               })
               .then(function (html) {
                 // Convert the HTML string into a document object
-                //var document = parser.parseFromString(html, 'text/html');
+                //var doc = parser.parseFromString(html, 'text/html');
                 //console.log(html);
               })
               .catch(function (error) {
@@ -125,15 +127,21 @@ async function sendData() {
         }//for
         //calculating all the key words from all pages
         keywordsPages = nthMostCommon(totalString, 15);
+        //order the object on desc to take the higher first
+        keywordsPages.sort((a, b) => b.occurences - a.occurences); //order desc
+        keywordsPages.slice(0, 10); //just take top 10
 
-        // console.log("LAST WORD COUNTS pages-------");
-        // console.log(keywordsPages)
+        console.log("LAST WORD COUNTS pages-------");
+        console.log(keywordsPages)
 
         // console.log("LAST WORD COUNTS sumary each page-----");
         // console.log(wordCounts)
 
-        //alert("after for"+JSON.stringify(articles))
-        //return { articles, wordCounts };
+        //take only top 10 high results
+        highPerpage.sort((a, b) => b.occurences - a.occurences); //order desc
+        highPerpage.slice(0, 10);
+        // console.log("HIGH per page-----");
+        // console.log(highPerpage)
 
         return  $.post({
           url: 'http://localhost:8080/index.php',
